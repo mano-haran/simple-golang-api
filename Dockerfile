@@ -2,11 +2,11 @@
 FROM golang:1.21 AS builder
 
 WORKDIR /app
+COPY . .
 COPY go.mod ./
 RUN go mod tidy
 RUN go mod download
 
-COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o simple-golang-api .
 
 # Stage 2 - Final (minimal RHEL-based)
