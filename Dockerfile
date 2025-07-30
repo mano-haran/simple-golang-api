@@ -3,7 +3,6 @@ FROM golang:1.21 AS builder
 
 WORKDIR /app
 COPY . .
-COPY go.mod ./
 RUN go mod tidy
 RUN go mod download
 
