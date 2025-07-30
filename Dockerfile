@@ -3,8 +3,8 @@ FROM golang:1.21 AS builder
 
 WORKDIR /app
 COPY go.mod ./
-COPY go.sum ./
 RUN [ -f go.sum ] || go mod tidy
+COPY go.sum ./
 RUN go mod download
 
 COPY . .
