@@ -14,5 +14,5 @@ FROM registry.access.redhat.com/ubi8/ubi-minimal:8.9
 WORKDIR /app
 COPY --from=builder /app/simple-golang-api .
 
-EXPOSE 8080
+EXPOSE 9000
 ENTRYPOINT ["/app/simple-golang-api"]
