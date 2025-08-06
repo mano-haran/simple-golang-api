@@ -51,6 +51,7 @@ jobs:
       run: |
         echo "=== SARIF files ==="
         ls -R results.sarif
+        cat results.sarif/*.sarif
 
     - name: Fail if high severity issues exist
       run: |
