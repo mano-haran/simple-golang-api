@@ -1,1 +1,1 @@
-# simple-golang-api
+# Simple Golang API
