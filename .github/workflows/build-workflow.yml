@@ -11,9 +11,6 @@ on:
 env:
   IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/simple-golang-api
   
-permissions:
-  contents: write
-  
 jobs:
 
   build:
@@ -21,7 +18,7 @@ jobs:
     permissions:
       security-events: write   # Required for GitHub code scanning alerts
       actions: read
-      contents: read
+      contents: write
 
     strategy:
       fail-fast: false
