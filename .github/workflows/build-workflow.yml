@@ -49,16 +49,22 @@ jobs:
 
     - name: Debug SARIF file
       run: |
-        echo "=== SARIF content ==="
-        cat results.sarif || echo "No SARIF file found!"
+        echo "=== SARIF files ==="
+        ls -R results.sarif
 
     - name: Fail if high severity issues exist
       run: |
         set -e
-        count=$(jq '[.runs[].results[] | select(.level=="error")] | length' results.sarif)
-        echo "Error issue count: $count"
-        if [ "$count" -gt 0 ]; then
-          echo "❌ CodeQL detected high severity issues. Failing build."
+        files=$(find results.sarif -name '*.sarif')
+        total=0
+        for f in $files; do
+          count=$(jq '[.runs[].results[] | select(.level=="error")] | length' "$f")
+          echo "File: $f -> Error issue count: $count"
+          total=$((total + count))
+        done
+        echo "Total high severity issues: $total"
+        if [ "$total" -gt 0 ]; then
+          echo "CodeQL detected high severity issues. Failing build."
           exit 1
         fi
       
