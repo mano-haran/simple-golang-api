@@ -47,12 +47,18 @@ jobs:
       with:
         output: results.sarif
 
+    - name: Debug SARIF file
+      run: |
+        echo "=== SARIF content ==="
+        cat results.sarif || echo "No SARIF file found!"
+
     - name: Fail if high severity issues exist
       run: |
-        count=$(jq '[.runs[].results[] | select(.rule.severity=="error" or .rule.severity=="critical")] | length' results.sarif)
-        echo "Critical issue count: $count"
+        set -e
+        count=$(jq '[.runs[].results[] | select(.level=="error")] | length' results.sarif)
+        echo "Error issue count: $count"
         if [ "$count" -gt 0 ]; then
-          echo "CodeQL detected high severity issues. Failing build."
+          echo "❌ CodeQL detected high severity issues. Failing build."
           exit 1
         fi
       
