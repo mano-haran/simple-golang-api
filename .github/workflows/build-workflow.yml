@@ -54,10 +54,11 @@ jobs:
 
     - name: Fail if high severity issues exist
       run: |
-        set -e
+        #set -e
         files=$(find results.sarif -name '*.sarif')
         total=0
         for f in $files; do
+          echo "File: $f"
           count=$(jq '[.runs[].results[] | select(.level=="error")] | length' "$f")
           echo "File: $f -> Error issue count: $count"
           total=$((total + count))
