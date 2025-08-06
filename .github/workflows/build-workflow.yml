@@ -42,7 +42,19 @@ jobs:
       uses: github/codeql-action/autobuild@v3
 
     - name: Perform CodeQL Analysis
+      id: analyze
       uses: github/codeql-action/analyze@v3
+      with:
+        output: results.sarif
+
+    - name: Fail if high severity issues exist
+      run: |
+        count=$(jq '[.runs[].results[] | select(.rule.severity=="error" or .rule.severity=="critical")] | length' results.sarif)
+        echo "Critical issue count: $count"
+        if [ "$count" -gt 0 ]; then
+          echo "CodeQL detected high severity issues. Failing build."
+          exit 1
+        fi
       
     - name: Log in to Docker Hub
       uses: docker/login-action@v3
