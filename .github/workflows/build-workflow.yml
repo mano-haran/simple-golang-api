@@ -11,6 +11,9 @@ on:
 env:
   IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/simple-golang-api
   
+permissions:
+  contents: write
+  
 jobs:
 
   build:
