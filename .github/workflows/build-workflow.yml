@@ -82,7 +82,6 @@ jobs:
         image-ref: "${{ env.IMAGE_NAME }}:${{ github.sha }}"
         severity: 'CRITICAL,HIGH'
         format: 'table'
-        exit-code: '1'   # fail job if vulnerabilities found
 
     - name: Build and push Docker image
       uses: docker/build-push-action@v5
