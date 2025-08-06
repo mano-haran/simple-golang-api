@@ -96,16 +96,22 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        file: ./Dockerfile
-        platforms: linux/amd64
-        push: true
-        tags: |
-            ${{ env.IMAGE_NAME }}:latest
-            ${{ env.IMAGE_NAME }}:${{ github.sha }}
-            ${{ env.IMAGE_NAME }}:${{ steps.get_version.outputs.version }}
+
+    - name: Push Docker image
+      run: |
+        docker push "${{ env.IMAGE_NAME }}:latest"
+        docker push "${{ env.IMAGE_NAME }}:${{ steps.get_version.outputs.version }}"
+        docker push "${{ env.IMAGE_NAME }}:${{ github.sha }}"       
+
+ #   - name: Build and push Docker image
+ #     uses: docker/build-push-action@v5
+ #     with:
+ #       context: .
+ #       file: ./Dockerfile
+ #       platforms: linux/amd64
+ #       push: true
+ #       tags: |
+ #           ${{ env.IMAGE_NAME }}:latest
+ #           ${{ env.IMAGE_NAME }}:${{ github.sha }}
+ #           ${{ env.IMAGE_NAME }}:${{ steps.get_version.outputs.version }}
         
