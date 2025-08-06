@@ -56,7 +56,7 @@ jobs:
     - name: Fail if high severity issues exist
       run: |
         set -e
-        files=$(find results.sarif -name '*.sarif')
+        files=$(find results.sarif -f -name '*.sarif')
         total=0
         for f in "$files"; do
           echo "File: $f"
